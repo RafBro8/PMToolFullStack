@@ -1,15 +1,17 @@
 package com.alpha.controller;
 
-
 import com.alpha.domain.Project;
 import com.alpha.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/project")
@@ -19,12 +21,15 @@ public class ProjectController {
     private ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<Project> createNewProject(@RequestBody Project project) {
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return new ResponseEntity<String>("Invalid Project Object", HttpStatus.BAD_REQUEST);
+        }
         Project project1 = projectService.saveOrUpdateProject(project);
         return new ResponseEntity<Project>(project, HttpStatus.CREATED);
     }
 }
-
 
 //ResponseEntity allows us to have more control on our JSON Responses. Allows to control response statuses and JSON data response
 
@@ -60,3 +65,24 @@ public class ProjectController {
 //ID  	CREATED_AT  	            DESCRIPTION  	           END_DATE  	PROJECT_IDENTIFIER  	PROJECT_NAME  	START_DATE  	UPDATED_AT
 //1	     2019-01-14 17:41:32.004	Testing POST for Project	null	    TEST_ID	                TEST	        null	        null
 //(1 row, 4 ms)
+
+//For Validation in Project.java file - if you want something better looking than 500 Error with ugly stack trace - use @Valid annotation
+//in createNewProject method above - which will give you 400 Bad Request with much better descriptions
+//To simplify the validation response use BindingResult result which will just show message like "Invalid Project Object" that you can specify
+
+
+//IMPORTANT ABOUT JAVA GENERICS!!!
+//let's say you have return type public ResponseEntity<?> but inside it you want to return some String value
+//you can change it to Generic type - public ResponseEntity<?> and then return return new ResponseEntity<String> inside
+// Example:
+// @PostMapping("")
+//    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {    ---- it was previously public ResponseEntity<Project>
+//
+//        if (result.hasErrors()) {
+//            return new ResponseEntity<String>("Invalid Project Object", HttpStatus.BAD_REQUEST);
+//        }
+//        Project project1 = projectService.saveOrUpdateProject(project);
+//        return new ResponseEntity<Project>(project, HttpStatus.CREATED);
+//    }
+//}
+//with Java Generics it looks like you can return different types inside same code block

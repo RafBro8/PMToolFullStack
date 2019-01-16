@@ -109,3 +109,9 @@ public class Project {
         this.updatedAt = new Date();
     }
 }
+
+
+// @Column(updatable = false, unique = true)
+//    private String projectIdentifier;
+//this @Column validation is happening at Database level, so the custom validation set in the Service
+// might not work since Service has no way yet to check in Database - that's why need to implement Custom Exception Handling

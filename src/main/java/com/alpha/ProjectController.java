@@ -1,4 +1,4 @@
-package com.alpha.controller;
+package com.alpha;
 
 import com.alpha.domain.Project;
 import com.alpha.service.ProjectService;

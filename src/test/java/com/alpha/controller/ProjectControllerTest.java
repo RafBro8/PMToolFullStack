@@ -1,0 +1,7 @@
+package com.alpha.controller;
+
+import static org.junit.Assert.*;
+
+public class ProjectControllerTest {
+
+}

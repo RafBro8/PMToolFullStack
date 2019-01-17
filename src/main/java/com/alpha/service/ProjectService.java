@@ -28,4 +28,10 @@ public class ProjectService {
         }
         return project;
     }
+
+    public Iterable<Project> findAllProjects() {
+        return projectRepository.findAll();
+    }
 }
+
+//Iterable - good when using findAll queries or Lists, returns JSON Object with all data from findAll or the Lists we are searching

@@ -39,6 +39,12 @@ public class ProjectController {
         return new ResponseEntity<Project>(project, HttpStatus.OK);
 
     }
+
+    @GetMapping("/all")
+    public Iterable<Project> getAllProjects() {
+        return projectService.findAllProjects();
+
+    }
 }
 
 //ResponseEntity allows us to have more control on our JSON Responses. Allows to control response statuses and JSON data response

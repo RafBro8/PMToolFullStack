@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 
-    @Override
-    Iterable<Project> findAllById(Iterable<Long> iterable);
+    Project findByProjectIdentifier(String projectId);
 }
+
+//JPA allows to write queries based on fields it find in your Model that you are using

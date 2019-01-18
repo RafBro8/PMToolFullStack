@@ -45,6 +45,12 @@ public class ProjectController {
         return projectService.findAllProjects();
 
     }
+
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<?> deleteProject(@PathVariable String projectId) {
+        projectService.deleteProjectByIdentifier(projectId);
+        return new ResponseEntity<String>("Project with ID: '" + projectId + "' was deleted", HttpStatus.OK);
+    }
 }
 
 //ResponseEntity allows us to have more control on our JSON Responses. Allows to control response statuses and JSON data response
